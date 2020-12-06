@@ -20,10 +20,10 @@ var imgArr = [
     "https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/129625810_3639722679438330_3647579408847884347_n.jpg?_nc_cat=106&ccb=2&_nc_sid=825194&_nc_ohc=HvIrE4DzHjIAX-iRyRV&_nc_oc=AQkKEwU4vEkh58Ne5ucLCzBpJAzRzFsRIgBeE2Y6bkR1ITQZW_RnNtOiOYM9SaNEXp0Jv5K5CM5ENW6YaIsuLsbA&_nc_ht=scontent-iad3-1.xx&oh=f1e68fa0ff650ffaa69e7d47b401968f&oe=5FF1D2C7", //gays going to brunch
     ];
 var msgArr = [
-    "'I love gay people!' -literally everyone else but u", 
-    "i'm here for the gays, the girls, and the they's", 
-    "chad x ryan were gay lovers in high school musical 2 no I will not elaborate at this time", 
-    "who was your gay awakening? also stfu homophobe", 
+    "'I love gay people!' -literally everyone else but u",
+    "i'm here for the gays, the girls, and the they's",
+    "chad x ryan were gay lovers in high school musical 2 no I will not elaborate at this time",
+    "who was your gay awakening? also stfu homophobe",
     "gaygaygaygaygaygaygaygaygaygaygaygaygaygaygaygaygay",
     "gay ? gay.",
     "Why is it that, as a culture, we are more comfortable seeing two men holding guns, than holding hands?",
@@ -33,17 +33,25 @@ var msgArr = [
     "u r dumb"
     ]
 
+    client.on('rateLimit', data => console.log(data));
 
-client.on('message', message => {
+client.on('message', async (message) => {
 // make sure it doesnt repeat a loop somehow
     if (message.author.id == client.user.id) return;
-    
+
 
 // slur search
     var i;
     for (i=0; i<slursArr.length; i++) {
     if (message.cleanContent.match(slursArr[i]))
-        message.reply(msgArr[Math.floor(Math.random() * 10)] + " " + imgArr[Math.floor(Math.random() * 10)]);
+        {
+        await message.reply(msgArr[Math.floor(Math.random() * 10)] + " " + imgArr[Math.floor(Math.random() * 10)]);
+        await message.react('😡')
+        await message.react('👊')
+        await message.react('‼️')
+
+        break;
+        }
     }
 
 
@@ -53,11 +61,16 @@ client.on('message', message => {
     for (a=0; a<termsArr.length; a++) {
         for (b=0; b<negArr.length; b++) {
             if (message.cleanContent.match(termsArr[a]) && message.cleanContent.match(negArr[b]))
+            {
                 message.reply(msgArr[Math.floor(Math.random() * 10)] + " " + imgArr[Math.floor(Math.random() * 10)]);
+                message.react('😡');
+		        message.react('👊');
+                message.react('‼️');
+            }
         }
     }
 
-       
+
 })
 
 client.login(key);
